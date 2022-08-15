@@ -7,10 +7,10 @@ export const store = configureStore({
     [phonebookApi.reducerPath]: phonebookApi.reducer,
   },
 
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(phonebookApi.middleware),
+  middleware: getDefaultMiddleware => [
+    ...getDefaultMiddleware(),
+    phonebookApi.middleware,
+  ],
 });
 
 setupListeners(store.dispatch);
-
-
