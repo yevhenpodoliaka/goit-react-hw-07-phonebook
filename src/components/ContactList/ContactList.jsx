@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast';
+import { useEffect } from 'react';
 import s from './ContactList.module.css';
 import ContactItem from 'components/ContactItem/ContactItem';
 import { useSelector } from 'react-redux';
@@ -8,9 +10,16 @@ import {
 import { getFilterValue } from '../../redux/filterSlice';
 
 const Contactlist = () => {
+  
   const { data: contacts } = useGetContactsQuery();
-  const [deleteContact] = useDeleteContactMutation();
+  const [deleteContact, { isSuccess, data }] = useDeleteContactMutation();
+
   const value = useSelector(getFilterValue);
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(`contact ${data.name} deleted`);
+    }
+  }, [isSuccess, data]);
 
   const getVisiblecontacts = () => {
     const normalizedFilter = value.toLowerCase();
@@ -23,14 +32,18 @@ const Contactlist = () => {
 
   return (
     <ul className={s.list}>
-      {visibleContacts?.map(({ id, name, phone }) => (
-        <ContactItem
-          key={id}
-          name={name}
-          number={phone}
-          onDeleteContact={() => deleteContact(id)}
-        />
-      ))}
+      {visibleContacts ? (
+        visibleContacts?.map(({ id, name, phone }) => (
+          <ContactItem
+            key={id}
+            name={name}
+            number={phone}
+            onDeleteContact={() => deleteContact(id)}
+          />
+        ))
+      ) : (
+        <p>Loading Contact ...</p>
+      )}
     </ul>
   );
 };

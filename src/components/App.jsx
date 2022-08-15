@@ -11,7 +11,7 @@ function App() {
       <Filter />
       <h2>Contacts</h2>
       <Contactlist />
-      <Toaster />
+      <Toaster toastOptions={ {duration: 1500}}/>
     </>
   );
 }

@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import s from './ContactForm.module.css';
-import { useAddContactMutation ,useGetContactsQuery} from '../../redux/contactsSlice';
+import {
+  useAddContactMutation,
+  useGetContactsQuery,
+} from '../../redux/contactsSlice';
 
 function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const [addContact] = useAddContactMutation();
-  const { data:contacts } = useGetContactsQuery();
 
+  const [addContact, { isSuccess, data }] = useAddContactMutation();
+  const { data: contacts } = useGetContactsQuery();
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(`contact ${data.name} add in list`);
+    }
+  }, [isSuccess, data]);
+  
   const handleChange = e => {
     const { name, value } = e.currentTarget;
     switch (name) {
@@ -32,9 +42,9 @@ function ContactForm() {
   };
 
   const hasContact = () => {
-  contacts.find(el => el.name.toLowerCase() === name.toLowerCase())
-    ? toast(`${name} is already in contacts`)
-    : addContact({ name, number });
+    contacts.find(el => el.name.toLowerCase() === name.toLowerCase())
+      ? toast.error(`${name} is already in contacts`)
+      : addContact({ name, number });
   };
 
   return (
