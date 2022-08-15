@@ -1,5 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const phonebookApi = createApi({
   reducerPath: 'phonebookApi',
@@ -30,10 +29,8 @@ export const phonebookApi = createApi({
   }),
 });
 
-
-
-export const { useGetContactsQuery, useAddContactMutation, useDeleteContactMutation } =
-  phonebookApi;
-
-
-
+export const {
+  useGetContactsQuery,
+  useAddContactMutation,
+  useDeleteContactMutation,
+} = phonebookApi;
