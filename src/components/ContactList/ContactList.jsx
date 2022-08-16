@@ -13,7 +13,7 @@ const Contactlist = () => {
   
   const { data: contacts } = useGetContactsQuery();
   const [deleteContact, { isSuccess, data }] = useDeleteContactMutation();
-
+  console.log(contacts);
   const value = useSelector(getFilterValue);
   useEffect(() => {
     if (isSuccess) {
@@ -31,20 +31,23 @@ const Contactlist = () => {
   const visibleContacts = getVisiblecontacts();
 
   return (
-    <ul className={s.list}>
-      {visibleContacts ? (
-        visibleContacts?.map(({ id, name, phone }) => (
-          <ContactItem
-            key={id}
-            name={name}
-            number={phone}
-            onDeleteContact={() => deleteContact(id)}
-          />
-        ))
-      ) : (
-        <p>Loading Contact ...</p>
-      )}
-    </ul>
+    <>
+      <ul className={s.list}>
+        {visibleContacts ? (
+          visibleContacts?.map(({ id, name, phone }) => (
+            <ContactItem
+              key={id}
+              name={name}
+              number={phone}
+              onDeleteContact={() => deleteContact(id)}
+            />
+          ))
+        ) : (
+          <p>Loading Contact ...</p>
+        )}
+      </ul>
+      {contacts?.length === 0 && <p>there are not contacts</p>}
+    </>
   );
 };
 
