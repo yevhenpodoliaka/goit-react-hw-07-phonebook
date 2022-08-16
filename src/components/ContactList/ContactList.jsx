@@ -13,7 +13,7 @@ const Contactlist = () => {
   
   const { data: contacts } = useGetContactsQuery();
   const [deleteContact, { isSuccess, data }] = useDeleteContactMutation();
-  console.log(contacts);
+
   const value = useSelector(getFilterValue);
   useEffect(() => {
     if (isSuccess) {
